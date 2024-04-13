@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.button-completing {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-completing:hover {
+    background-color: #0056b3;
+}
+
+.button-completed {
+    padding: 10px 20px;
+    background-color: #90d423;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button-completed:hover {
+    background-color: #6fa01f;
+}
+
+@media screen and (max-width: 480px) {
+    .show-on-desktop {
+      display: none;
+    }
+  }
+  
+@media screen and (min-width: 481px) {
+    .hide-on-desktop {
+        display: none;
+    }
+}

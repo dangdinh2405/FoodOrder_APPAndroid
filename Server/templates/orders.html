@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Orders</h1>
+        <ul>
+            {% for order in orders %}
+                <li>Mã đơn hàng: {{ order.orderId }} 
+                    {% for food in order.foods %}
+                        <p>- {{food}}</p> 
+                    {% endfor %} 
+                    {% if order.status == 'preparing' %} 
+                    <button class="button-completing" onclick="completingOrder('{{ order.orderId }}')">Sắp xong</button> 
+                    {% else %} 
+                    <button class="button-completed" onclick="deleteCompletedOrder('{{ order.orderId }}')">Xong</button> 
+                    {% endif %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script>
+        function completingOrder(orderId) {
+            fetch('/broadcast',
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify({"msg": 'Đơn hàng có mã ' + orderId + ' sắp xong.'})
+                });
+            fetch('/changeStatus',
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify({"orderId": orderId, "status": "completing"})
+                });
+            window.location.reload();
+        }
+        function deleteCompletedOrder(orderId) {
+            fetch('/broadcast',
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify({"msg": 'Đơn hàng có mã ' + orderId + ' đã xong.'})
+                });
+            fetch('/changeStatus',
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify({"orderId": orderId, "status": "completed"})
+                });
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
